@@ -6,9 +6,8 @@ import numpy as np
 from fastapi import FastAPI, Form
 from fastapi.responses import HTMLResponse
 
-
 import main
-sys.modules['__main__'] = main 
+sys.modules['__main__'] = main
 
 app = FastAPI()
 
@@ -21,25 +20,32 @@ def add_custom_features(X):
 
 setattr(sys.modules['__main__'], 'add_custom_features', add_custom_features)
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, "models", "loan_logistic_model.joblib")
+def get_model_path(model_name):
+    """Checks multiple locations for the model files."""
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    path1 = os.path.join(base_dir, "models", model_name)
+    
+    path2 = os.path.join(os.getcwd(), "models", model_name)
+    
+    if os.path.exists(path1):
+        return path1
+    return path2
 
-TREE_MODEL_PATH = os.path.join(BASE_DIR, "models", "loan_tree_model.joblib")
-tree_model = None
-print(f"DEBUG: Looking for model at {MODEL_PATH}")
+LOG_PATH = get_model_path("loan_logistic_model.joblib")
+TREE_PATH = get_model_path("loan_tree_model.joblib")
 
 try:
-    log_model = joblib.load(MODEL_PATH)
-    print("SUCCESS: Model loaded and ready for predictions!")
+    log_model = joblib.load(LOG_PATH)
+    print(f"SUCCESS: Logistic Model loaded from {LOG_PATH}")
 except Exception as e:
-    print(f"CRITICAL ERROR: Could not load model. Reason: {e}")
+    print(f"ERROR: Logistic Model failed. Path: {LOG_PATH}. Reason: {e}")
     log_model = None
 
 try:
-    tree_model = joblib.load(TREE_MODEL_PATH)
-    print("Decision Tree Model loaded!")
+    tree_model = joblib.load(TREE_PATH)
+    print(f"SUCCESS: Tree Model loaded from {TREE_PATH}")
 except Exception as e:
-    print(f"Tree Error: {e}")
+    print(f"ERROR: Tree Model failed. Path: {TREE_PATH}. Reason: {e}")
     tree_model = None
     
 @app.get("/", response_class=HTMLResponse)
