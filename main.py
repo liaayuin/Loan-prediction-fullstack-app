@@ -63,44 +63,99 @@ async def home():
             <h1 class="text-3xl font-extrabold text-slate-900 mb-2">LoanPredictionAI <span class="text-indigo-600 italic">Pro</span></h1>
             <p class="text-slate-400 font-medium mb-8">Advanced Risk Intelligence Assessment</p>
             
-            <form action="/predict" method="post" class="space-y-5">
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 ml-1 tracking-widest">Monthly Income ($)</label>
-                        <input type="number" name="ApplicantIncome" placeholder="e.g. 5000" required class="w-full p-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500 border-none">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 ml-1 tracking-widest">Loan Request ($)</label>
-                        <input type="number" name="LoanAmount" placeholder="e.g. 150" required class="w-full p-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500 border-none">
-                    </div>
-                </div>
-                
+    <form action="/predict" method="post" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 ml-1 tracking-widest">Credit History Status</label>
-                    <select name="Credit_History" class="w-full p-4 bg-slate-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-indigo-500">
-                        <option value="1.0">Clean (No defaults/paid on time)</option>
-                        <option value="0.0">Poor (Previous defaults detected)</option>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 ml-1 tracking-widest">Monthly Income ($)</label>
+                    <input type="number" name="ApplicantIncome" placeholder="e.g. 5000" required class="w-full p-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500 border-none">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 ml-1 tracking-widest">Co-App Income ($)</label>
+                    <input type="number" name="CoapplicantIncome" placeholder="e.g. 0" required class="w-full p-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500 border-none">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 ml-1 tracking-widest">Loan Request ($)</label>
+                    <input type="number" name="LoanAmount" placeholder="e.g. 150" required class="w-full p-4 bg-slate-50 rounded-2xl outline-none focus:ring-2 focus:ring-indigo-500 border-none">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 ml-1 tracking-widest">Loan Term (Days)</label>
+                    <select name="Loan_Amount_Term" class="w-full p-4 bg-slate-50 rounded-2xl border-none text-slate-600 outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="360">360 Days (1 Year)</option>
+                        <option value="180">180 Days (6 Months)</option>
+                        <option value="480">480 Days (Long Term)</option>
+                        <option value="120">120 Days (Short Term)</option>
+                        <option value="84">84 Days (Quick Loan)</option>
                     </select>
                 </div>
+            </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <select name="Married" class="p-4 bg-slate-50 rounded-2xl border-none text-slate-600"><option>Married: Yes</option><option>Married: No</option></select>
-                    <select name="Education" class="p-4 bg-slate-50 rounded-2xl border-none text-slate-600"><option>Graduate</option><option>Not Graduate</option></select>
-                </div>
-
-                <select name="Property_Area" class="w-full p-4 bg-slate-50 rounded-2xl border-none text-slate-600">
-                    <option value="Semiurban">Property: Semiurban</option>
-                    <option value="Urban">Property: Urban</option>
-                    <option value="Rural">Property: Rural</option>
+            <div>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 ml-1 tracking-widest">Credit History Status</label>
+                <select name="Credit_History" class="w-full p-4 bg-slate-50 rounded-2xl border-none outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="1.0">Clean (No defaults / Paid on time)</option>
+                    <option value="0.0">Poor (Previous defaults detected)</option>
                 </select>
-                
-                <input type="hidden" name="Gender" value="Male"><input type="hidden" name="Dependents" value="0">
-                <input type="hidden" name="Self_Employed" value="No"><input type="hidden" name="CoapplicantIncome" value="0">
-                <input type="hidden" name="Loan_Amount_Term" value="360">
+            </div>
 
-                <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-5 rounded-2xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100">Analyze Eligibility</button>
-            </form>
-        </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 ml-1 tracking-widest">Gender</label>
+                    <select name="Gender" class="w-full p-4 bg-slate-50 rounded-2xl border-none text-slate-600 outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 ml-1 tracking-widest">Married</label>
+                    <select name="Married" class="w-full p-4 bg-slate-50 rounded-2xl border-none text-slate-600 outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="col-span-2 md:col-span-1">
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 ml-1 tracking-widest">Dependents</label>
+                    <select name="Dependents" class="w-full p-4 bg-slate-50 rounded-2xl border-none text-slate-600 outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3+">3+</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 ml-1 tracking-widest">Education</label>
+                    <select name="Education" class="w-full p-4 bg-slate-50 rounded-2xl border-none text-slate-600 outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="Graduate">Graduate</option>
+                        <option value="Not Graduate">Not Graduate</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 ml-1 tracking-widest">Self Employed</label>
+                    <select name="Self_Employed" class="w-full p-4 bg-slate-50 rounded-2xl border-none text-slate-600 outline-none focus:ring-2 focus:ring-indigo-500">
+                        <option value="No">No</option>
+                        <option value="Yes">Yes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2 ml-1 tracking-widest">Property Area Type</label>
+                <select name="Property_Area" class="w-full p-4 bg-slate-50 rounded-2xl border-none text-slate-600 outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="Semiurban">Semiurban (High Approval Likelihood)</option>
+                    <option value="Urban">Urban</option>
+                    <option value="Rural">Rural</option>
+                </select>
+            </div>
+
+            <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-5 rounded-3xl hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 transform hover:-translate-y-1 active:scale-[0.98]">
+                Analyze Loan Eligibility
+            </button>
+        </form>
     </body>
     </html>
     """
@@ -109,14 +164,11 @@ async def home():
 async def predict(
     ApplicantIncome: float = Form(...), LoanAmount: float = Form(...),
     Credit_History: float = Form(...), Married: str = Form(...),
-    Education: str = Form(...), Property_Area: str = Form(...),
-    Gender: str = Form(...), Dependents: str = Form(...),
-    Self_Employed: str = Form(...), CoapplicantIncome: float = Form(...),
-    Loan_Amount_Term: float = Form(...)
+    Gender: str = Form(...), CoapplicantIncome: float = Form(...),
+    Loan_Amount_Term: float = Form(...), Dependents: str = Form("0"),
+    Education: str = Form("Graduate"), Self_Employed: str = Form("No"),
+    Property_Area: str = Form("Semiurban")
 ):
-    if log_model is None:
-        return "<h1>Error: Model not loaded. Check terminal.</h1>"
-
     data = pd.DataFrame([{
         'Gender': Gender, 'Married': Married, 'Dependents': Dependents,
         'Education': Education, 'Self_Employed': Self_Employed,
@@ -126,12 +178,13 @@ async def predict(
     }])
 
     lr_prob = log_model.predict_proba(data)[0][1]
-    
-  
-    dt_prob = tree_model.predict_proba(data)[0][1] 
+    dt_prob = tree_model.predict_proba(data)[0][1]
 
-    status = "APPROVED" if lr_prob > 0.5 else "REJECTED"
-    color = "indigo" if lr_prob > 0.5 else "rose"
+    final_score = (lr_prob + dt_prob) / 2
+    status = "APPROVED" if final_score > 0.5 else "REJECTED"
+
+
+    color = "indigo" if final_score > 0.5 else "rose"
 
     return f"""
     <!DOCTYPE html>
@@ -146,11 +199,11 @@ async def predict(
             <div class="bg-white rounded-[40px] shadow-2xl overflow-hidden border border-slate-100 h-fit">
                 <div class="bg-{color}-600 p-12 text-center text-white">
                     <h2 class="text-5xl font-black italic">{status}</h2>
-                    <p class="mt-2 opacity-80 uppercase text-xs font-bold tracking-widest">Primary Model Decision</p>
-                </div>
+<p class="mt-2 opacity-80 uppercase text-xs font-bold tracking-widest">Combined AI Decision</p>                </div>
                 <div class="p-8 space-y-4">
                     <div class="p-4 bg-slate-50 rounded-2xl">
                         <p class="text-xs font-bold text-slate-400 uppercase">Input Analysis</p>
+                        <p class="text-slate-700 font-bold">Total Confidence: {final_score * 100:.1f}%</p>
                         <p class="text-slate-700 font-bold">Credit: {"Healthy" if Credit_History == 1 else "Poor"}</p>
                         <p class="text-slate-700 font-bold">Income Ratio: {ApplicantIncome/LoanAmount:.2f}x</p>
                     </div>
@@ -164,6 +217,7 @@ async def predict(
                 <div class="mt-6 text-xs text-slate-500 italic">
                     <p><b>Logistic Regression:</b> Sees risk as a smooth gradient.</p>
                     <p class="mt-1"><b>Decision Tree:</b> Sees risk as a hard "Pass/Fail" split.</p>
+                    <p><b>Final Decision:</b> Calculated by averaging Logistic Regression ({lr_prob*100:.0f}%) and Decision Tree ({dt_prob*100:.0f}%).</p>
                 </div>
             </div>
 
@@ -174,11 +228,11 @@ async def predict(
             new Chart(ctx, {{
                 type: 'bar',
                 data: {{
-                    labels: ['Logistic Regression', 'Decision Tree'],
+                    labels: ['Logistic Regression', 'Decision Tree', 'Combined Final'],
                     datasets: [{{
                         label: 'Approval Confidence (%)',
-                        data: [{lr_prob * 100}, {dt_prob * 100}],
-                        backgroundColor: ['#6366f1', '#10b981'],
+                        data: [{lr_prob * 100}, {dt_prob * 100}, {final_score * 100}],
+                        backgroundColor: ['#6366f1', '#10b981', '#4f46e5'],
                         borderRadius: 12
                     }}]
                 }},
